@@ -1,5 +1,5 @@
 [project]
-name = "delete-github-repos"
+name = "gitnuke"
 version = "0.1.0"
 description = "Local web interface to review and delete personal GitHub repositories"
 readme = "README.md"
@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [project.scripts]
-delete-github-repos = "delete_github_repos:main"
+gitnuke = "gitnuke:main"
 
 [build-system]
 requires = ["uv_build>=0.13.7,<0.14.0"]
