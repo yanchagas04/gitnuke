@@ -1,4 +1,4 @@
-# Excluir repositórios do GitHub
+# GitNuke
 
 Aplicativo web local para revisar e excluir repositórios pessoais usando o
 GitHub CLI (`gh`). Ele lista nome, descrição e visibilidade e permite selecionar
@@ -9,9 +9,18 @@ vários repositórios para excluir em lote.
 
 ## Requisitos
 
-- Python compatível com a versão indicada em `.python-version`
+- Python `>=3.12`
+- [`uv`](https://docs.astral.sh/uv/getting-started/installation/) instalado para
+  instalar e sincronizar as dependências do projeto.
 - [GitHub CLI (`gh`)](https://cli.github.com/) instalado e disponível no `PATH`
-- Permissão para excluir os repositórios desejados
+  para autenticar e gerenciar os repositórios.
+
+Confira se os dois comandos estão disponíveis no terminal:
+
+```sh
+uv --version
+gh --version
+```
 
 ## Executar
 
@@ -31,8 +40,7 @@ chmod +x run.sh
 ./run.sh
 ```
 
-É necessário ter o [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
-instalado. No Windows, execute `run.bat` pelo Prompt de Comando ou PowerShell.
+No Windows, execute `run.bat` pelo Prompt de Comando ou PowerShell.
 
 O aplicativo abre a interface no navegador e inicia um servidor acessível
 somente neste computador (`127.0.0.1`). Mantenha o terminal aberto enquanto
