@@ -17,13 +17,22 @@
       <div class="header-branding">
         <img class="brand-mark" src="{{ url_for('static', filename='gitnuke-logo.svg') }}" alt="Gitnuke">
         <div>
-          <h1>Gerenciar repositórios</h1>
-          <p class="subtitle">Revise sua lista e escolha o que deseja excluir.</p>
+          <h1>GitNuke</h1>
+          <p class="subtitle">Helper para exclusão de repositórios do GitHub.</p>
         </div>
       </div>
-      <button id="theme-toggle" class="button button-secondary theme-toggle" type="button" aria-pressed="false">
-        <span id="theme-icon" aria-hidden="true">☾</span>
-        <span id="theme-label">Ativar modo escuro</span>
+      <button id="theme-toggle" class="theme-toggle" type="button" role="switch" aria-label="Modo escuro"
+        aria-checked="false">
+        <svg class="theme-switch-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="3.5"></circle>
+          <path
+            d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42">
+          </path>
+        </svg>
+        <svg class="theme-switch-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <path d="M20.2 15.1A8.2 8.2 0 0 1 8.9 3.8 8.4 8.4 0 1 0 20.2 15.1Z"></path>
+        </svg>
+        <span class="theme-switch-thumb" aria-hidden="true"></span>
       </button>
     </header>
 
@@ -48,7 +57,10 @@
       <div class="account-bar">
         <div>
           <p class="eyebrow">CONTA AUTENTICADA</p>
-          <h2 id="repositories-title">@<span id="username"></span></h2>
+          <h2 id="repositories-title" class="account-name">
+            <img id="profile-avatar" class="profile-avatar" alt="" hidden>
+            <span id="username"></span>
+          </h2>
         </div>
         <div class="account-actions">
           <button id="refresh-permission" class="button button-secondary" type="button">Autorizar exclusões</button>

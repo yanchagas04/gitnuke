@@ -4,6 +4,7 @@ const repositoriesPage = document.getElementById("repositories-page");
 const authStartButton = document.getElementById("auth-start");
 const authCheckButton = document.getElementById("auth-check");
 const usernameElement = document.getElementById("username");
+const profileAvatar = document.getElementById("profile-avatar");
 const listElement = document.getElementById("repository-list");
 const emptyState = document.getElementById("empty-state");
 const countElement = document.getElementById("repository-count");
@@ -16,15 +17,11 @@ const confirmDeleteButton = document.getElementById("confirm-delete");
 const notice = document.getElementById("notice");
 const globalError = document.getElementById("global-error");
 const themeToggle = document.getElementById("theme-toggle");
-const themeIcon = document.getElementById("theme-icon");
-const themeLabel = document.getElementById("theme-label");
 
 function applyTheme(theme) {
   const isDark = theme === "dark";
   document.documentElement.dataset.theme = isDark ? "dark" : "light";
-  themeToggle.setAttribute("aria-pressed", String(isDark));
-  themeIcon.textContent = isDark ? "☀" : "☾";
-  themeLabel.textContent = isDark ? "Ativar modo claro" : "Ativar modo escuro";
+  themeToggle.setAttribute("aria-checked", String(isDark));
 }
 
 let savedTheme = null;
@@ -124,6 +121,9 @@ async function loadRepositories() {
   try {
     const data = await requestJson("/api/repositories");
     usernameElement.textContent = data.username;
+    profileAvatar.alt = `Foto de perfil de ${data.username}`;
+    profileAvatar.src = `https://github.com/${encodeURIComponent(data.username)}.png?size=96`;
+    profileAvatar.hidden = false;
     for (const repository of data.repositories) {
       addRepositoryRow(repository);
     }
@@ -135,6 +135,10 @@ async function loadRepositories() {
     countElement.textContent = "Não foi possível carregar os repositórios.";
   }
 }
+
+profileAvatar.addEventListener("error", () => {
+  profileAvatar.hidden = true;
+});
 
 async function checkAuthentication() {
   globalError.hidden = true;

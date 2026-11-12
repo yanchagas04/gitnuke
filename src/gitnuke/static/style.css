@@ -193,7 +193,7 @@ code {
   font-size: 0.85rem;
 }
 
-.auth-card > .muted {
+.auth-card>.muted {
   margin-bottom: 22px;
   font-size: 0.9rem;
   line-height: 1.55;
@@ -246,7 +246,7 @@ code {
   background: #a40e26;
 }
 
-.auth-card .button + .button {
+.auth-card .button+.button {
   margin-left: 8px;
 }
 
@@ -274,14 +274,79 @@ code {
   margin-bottom: 0;
 }
 
-.theme-toggle {
-  flex: 0 0 auto;
-  gap: 9px;
+.account-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
-#theme-icon {
-  font-size: 1.15rem;
-  line-height: 1;
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 58px;
+  height: 34px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-hover);
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-switch-icon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  z-index: 1;
+  fill: none;
+  stroke: var(--muted);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  transition: stroke 160ms ease;
+}
+
+.theme-toggle:not([aria-checked="true"]) .theme-switch-icon:first-child {
+  stroke: #bf8700;
+}
+
+.theme-toggle[aria-checked="true"] .theme-switch-icon:nth-child(2) {
+  stroke: #fff;
+}
+
+.theme-switch-thumb {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 25%);
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.theme-toggle[aria-checked="true"] .theme-switch-thumb {
+  transform: translateX(26px);
+  background: var(--accent);
 }
 
 .repository-card {
@@ -448,7 +513,7 @@ input[type="checkbox"] {
   background: rgb(31 35 40 / 55%);
 }
 
-.confirm-dialog > form > p:not(.eyebrow) {
+.confirm-dialog>form>p:not(.eyebrow) {
   color: var(--muted);
   line-height: 1.5;
 }
@@ -469,7 +534,7 @@ input[type="checkbox"] {
   overflow-wrap: anywhere;
 }
 
-.dialog-repositories li + li {
+.dialog-repositories li+li {
   margin-top: 7px;
 }
 
@@ -560,11 +625,6 @@ input[type="checkbox"] {
   .brand-mark {
     width: 42px;
     height: 42px;
-  }
-
-  .theme-toggle {
-    padding: 8px 10px;
-    font-size: 0.8rem;
   }
 
   .auth-card {
