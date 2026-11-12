@@ -15,12 +15,24 @@ vários repositórios para excluir em lote.
 
 ## Executar
 
-Na pasta do projeto, instale as dependências e inicie o aplicativo:
+Use o script da sua plataforma na pasta do projeto. Ele instala/sincroniza as
+dependências com `uv` e inicia a interface:
 
-```powershell
-uv sync
-uv run delete-github-repos
+| Sistema | Comando |
+| --- | --- |
+| Windows (Prompt de Comando) | `run.bat` |
+| Linux | `sh run.sh` |
+| macOS | `sh run.sh` |
+
+No Linux ou macOS, também é possível torná-lo executável e iniciá-lo diretamente:
+
+```sh
+chmod +x run.sh
+./run.sh
 ```
+
+É necessário ter o [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+instalado. No Windows, execute `run.bat` pelo Prompt de Comando ou PowerShell.
 
 O aplicativo abre a interface no navegador e inicia um servidor acessível
 somente neste computador (`127.0.0.1`). Mantenha o terminal aberto enquanto
