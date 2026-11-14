@@ -70,11 +70,43 @@ function showNotice(message, isError = false) {
   notice.hidden = false;
 }
 
+const searchInput = document.getElementById("repository-search");
+const VISIBLE_CHECKBOXES = 'tr:not([hidden]) input[type="checkbox"]';
+
+function normalize(text) {
+  return text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+
+function applyFilter() {
+  const query = normalize(searchInput.value.trim());
+  const rows = [...listElement.querySelectorAll("tr")];
+  let visible = 0;
+  for (const row of rows) {
+    const match = normalize(row.dataset.search || "").includes(query);
+    row.hidden = !match;
+    if (match) {
+      visible += 1;
+    } else {
+      // Never keep hidden repositories selected, so they can't be deleted unseen.
+      row.querySelector('input[type="checkbox"]').checked = false;
+    }
+  }
+  emptyState.hidden = visible > 0;
+  if (rows.length > 0) {
+    countElement.textContent = query
+      ? `${visible} de ${rows.length} repositório${rows.length === 1 ? "" : "s"}`
+      : `${rows.length} repositório${rows.length === 1 ? "" : "s"}`;
+  }
+  updateSelection();
+}
+
+searchInput.addEventListener("input", applyFilter);
+
 function updateSelection() {
-  const selected = listElement.querySelectorAll('input[type="checkbox"]:checked');
+  const selected = listElement.querySelectorAll(`${VISIBLE_CHECKBOXES}:checked`);
   selectedCountElement.textContent = `${selected.length} selecionado${selected.length === 1 ? "" : "s"}`;
   deleteButton.disabled = selected.length === 0;
-  const total = listElement.querySelectorAll('input[type="checkbox"]').length;
+  const total = listElement.querySelectorAll(VISIBLE_CHECKBOXES).length;
   selectAllButton.textContent = total > 0 && selected.length === total
     ? "Desmarcar todos"
     : "Selecionar todos";
@@ -109,6 +141,7 @@ function addRepositoryRow(repository) {
   badge.textContent = repository.private ? "Privado" : "Público";
   visibilityCell.append(badge);
 
+  row.dataset.search = `${repository.full_name} ${repository.description || ""}`;
   row.append(checkboxCell, nameCell, descriptionCell, visibilityCell);
   listElement.append(row);
 }
@@ -129,7 +162,7 @@ async function loadRepositories() {
     }
     countElement.textContent = `${data.repositories.length} repositório${data.repositories.length === 1 ? "" : "s"}`;
     emptyState.hidden = data.repositories.length > 0;
-    updateSelection();
+    applyFilter();
   } catch (error) {
     showGlobalError(error.message);
     countElement.textContent = "Não foi possível carregar os repositórios.";
@@ -190,7 +223,7 @@ document.getElementById("refresh-permission").addEventListener("click", async (e
 });
 
 selectAllButton.addEventListener("click", () => {
-  const checkboxes = listElement.querySelectorAll('input[type="checkbox"]');
+  const checkboxes = listElement.querySelectorAll(VISIBLE_CHECKBOXES);
   const shouldCheck = [...checkboxes].some((checkbox) => !checkbox.checked);
   for (const checkbox of checkboxes) {
     checkbox.checked = shouldCheck;
@@ -199,7 +232,7 @@ selectAllButton.addEventListener("click", () => {
 });
 
 deleteButton.addEventListener("click", () => {
-  const selected = [...listElement.querySelectorAll('input[type="checkbox"]:checked')];
+  const selected = [...listElement.querySelectorAll(`${VISIBLE_CHECKBOXES}:checked`)];
   dialogList.replaceChildren();
   for (const checkbox of selected) {
     const item = document.createElement("li");
