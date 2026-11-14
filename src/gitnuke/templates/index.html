@@ -79,6 +79,12 @@
           <button id="select-all" class="text-button" type="button">Selecionar todos</button>
         </div>
 
+        <div class="search-wrap">
+          <label for="repository-search" class="sr-only">Pesquisar repositório</label>
+          <input id="repository-search" class="search-input" type="search" placeholder="Pesquisar repositório…"
+            autocomplete="off">
+        </div>
+
         <div class="table-wrap">
           <table>
             <thead>
@@ -91,7 +97,7 @@
             </thead>
             <tbody id="repository-list"></tbody>
           </table>
-          <div id="empty-state" class="empty-state" hidden>Nenhum repositório pessoal encontrado.</div>
+          <div id="empty-state" class="empty-state" hidden>Nenhum repositório encontrado.</div>
         </div>
 
         <div class="list-footer">
