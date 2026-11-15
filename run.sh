@@ -9,4 +9,4 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 
 uv sync
-exec uv run delete-github-repos
+exec uv run gitnuke

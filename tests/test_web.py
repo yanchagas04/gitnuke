@@ -3,7 +3,7 @@ import subprocess
 import unittest
 from unittest.mock import patch
 
-from delete_github_repos.web import _launch_auth_terminal, _repositories, create_app
+from gitnuke.web import _launch_auth_terminal, _repositories, create_app
 
 
 class WebAppTests(unittest.TestCase):
@@ -40,8 +40,8 @@ class WebAppTests(unittest.TestCase):
 
     def test_auth_status_reports_current_account(self):
         with (
-            patch("delete_github_repos.web._authenticated_username", return_value="octocat"),
-            patch("delete_github_repos.web._repositories", return_value=[]),
+            patch("gitnuke.web._authenticated_username", return_value="octocat"),
+            patch("gitnuke.web._repositories", return_value=[]),
         ):
             response = self.client.get("/api/auth/status")
 
@@ -50,8 +50,8 @@ class WebAppTests(unittest.TestCase):
 
     def test_auth_commands_are_started_in_terminal(self):
         with (
-            patch("delete_github_repos.web.shutil.which", return_value="gh"),
-            patch("delete_github_repos.web.subprocess.Popen") as popen,
+            patch("gitnuke.web.shutil.which", return_value="gh"),
+            patch("gitnuke.web.subprocess.Popen") as popen,
         ):
             _launch_auth_terminal()
 
@@ -61,8 +61,8 @@ class WebAppTests(unittest.TestCase):
 
     def test_permission_refresh_opens_terminal(self):
         with (
-            patch("delete_github_repos.web.shutil.which", return_value="gh"),
-            patch("delete_github_repos.web.subprocess.Popen"),
+            patch("gitnuke.web.shutil.which", return_value="gh"),
+            patch("gitnuke.web.subprocess.Popen"),
         ):
             response = self.post_json("/api/auth/refresh", {})
 
@@ -98,7 +98,7 @@ class WebAppTests(unittest.TestCase):
             ],
         ]
         completed = subprocess.CompletedProcess([], 0, json.dumps(pages), "")
-        with patch("delete_github_repos.web._run_gh", return_value=completed):
+        with patch("gitnuke.web._run_gh", return_value=completed):
             repositories = _repositories("octocat")
 
         self.assertEqual([repo["name"] for repo in repositories], ["alpha", "zebra"])
@@ -115,8 +115,8 @@ class WebAppTests(unittest.TestCase):
             }
         ]
         with (
-            patch("delete_github_repos.web._authenticated_username", return_value="octocat"),
-            patch("delete_github_repos.web._repositories", return_value=repositories),
+            patch("gitnuke.web._authenticated_username", return_value="octocat"),
+            patch("gitnuke.web._repositories", return_value=repositories),
         ):
             response = self.client.get("/api/repositories")
 
@@ -142,9 +142,9 @@ class WebAppTests(unittest.TestCase):
             }
         ]
         with (
-            patch("delete_github_repos.web._authenticated_username", return_value="octocat"),
-            patch("delete_github_repos.web._repositories", return_value=repositories),
-            patch("delete_github_repos.web._run_gh") as run_gh,
+            patch("gitnuke.web._authenticated_username", return_value="octocat"),
+            patch("gitnuke.web._repositories", return_value=repositories),
+            patch("gitnuke.web._run_gh") as run_gh,
         ):
             response = self.post_json(
                 "/api/repositories/delete",
@@ -164,10 +164,10 @@ class WebAppTests(unittest.TestCase):
             }
         ]
         with (
-            patch("delete_github_repos.web._authenticated_username", return_value="octocat"),
-            patch("delete_github_repos.web._repositories", return_value=repositories),
+            patch("gitnuke.web._authenticated_username", return_value="octocat"),
+            patch("gitnuke.web._repositories", return_value=repositories),
             patch(
-                "delete_github_repos.web._run_gh",
+                "gitnuke.web._run_gh",
                 return_value=subprocess.CompletedProcess([], 0, "", ""),
             ) as run_gh,
         ):

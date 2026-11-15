@@ -11,5 +11,5 @@ if errorlevel 1 (
 uv sync
 if errorlevel 1 exit /b %errorlevel%
 
-uv run delete-github-repos
+uv run gitnuke
 exit /b %errorlevel%
